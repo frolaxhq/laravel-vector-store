@@ -9,9 +9,9 @@ use JsonSerializable;
 final readonly class VectorRecord implements JsonSerializable
 {
     /**
-     * @param  string  $id       Unique identifier
-     * @param  float[] $vector   The vector embedding
-     * @param  array   $metadata Key-value metadata pairs
+     * @param  string  $id  Unique identifier
+     * @param  float[]  $vector  The vector embedding
+     * @param  array  $metadata  Key-value metadata pairs
      */
     public function __construct(
         public string $id,
@@ -22,7 +22,7 @@ final readonly class VectorRecord implements JsonSerializable
     /**
      * Create a VectorRecord from an associative array.
      *
-     * @param  array{id: string, vector: float[], metadata?: array} $data
+     * @param  array{id: string, vector: float[], metadata?: array}  $data
      */
     public static function fromArray(array $data): self
     {

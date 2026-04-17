@@ -6,8 +6,8 @@ use Frolax\VectorStore\Compilers\PgvectorFilterCompiler;
 use Frolax\VectorStore\Drivers\PgvectorDriver;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\DB;
-use Mockery\MockInterface;
 
 beforeEach(function () {
     $this->connection = Mockery::mock(Connection::class);
@@ -16,11 +16,11 @@ beforeEach(function () {
     $this->connection->shouldReceive('table')->with('test_table')->andReturn($this->builder);
 
     DB::shouldReceive('connection')->with('test_conn')->andReturn($this->connection);
-    DB::shouldReceive('raw')->andReturnUsing(fn ($val) => new \Illuminate\Database\Query\Expression($val));
+    DB::shouldReceive('raw')->andReturnUsing(fn ($val) => new Expression($val));
 
     $this->driver = new PgvectorDriver(
         ['connection' => 'test_conn', 'table' => 'test_table', 'dimensions' => 3, 'metric' => 'cosine'],
-        new PgvectorFilterCompiler()
+        new PgvectorFilterCompiler
     );
 });
 

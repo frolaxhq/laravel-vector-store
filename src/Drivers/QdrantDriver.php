@@ -10,6 +10,7 @@ use Frolax\VectorStore\Query\VectorQueryBuilder;
 use Frolax\VectorStore\ValueObjects\VectorRecord;
 use Frolax\VectorStore\ValueObjects\VectorResult;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -25,7 +26,7 @@ class QdrantDriver implements VectorStoreContract
     protected QdrantFilterCompiler $compiler;
 
     /**
-     * @param  array{host?: string, api_key?: string, collection?: string} $config
+     * @param  array{host?: string, api_key?: string, collection?: string}  $config
      */
     public function __construct(array $config, QdrantFilterCompiler $compiler)
     {
@@ -233,7 +234,7 @@ class QdrantDriver implements VectorStoreContract
         }
 
         return $request->retry(3, 100, function (\Exception $e) {
-            return $e instanceof \Illuminate\Http\Client\RequestException
+            return $e instanceof RequestException
                 && in_array($e->response->status(), [429, 503]);
         }, false);
     }

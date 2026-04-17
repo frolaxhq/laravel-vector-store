@@ -6,15 +6,13 @@ namespace Frolax\VectorStore\Drivers;
 
 use Frolax\VectorStore\Compilers\PgvectorFilterCompiler;
 use Frolax\VectorStore\Contracts\VectorStoreContract;
-use Frolax\VectorStore\Exceptions\IndexNotFoundException;
-use Frolax\VectorStore\Exceptions\VectorStoreException;
 use Frolax\VectorStore\Query\VectorQueryBuilder;
 use Frolax\VectorStore\ValueObjects\VectorRecord;
 use Frolax\VectorStore\ValueObjects\VectorResult;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schema;
 
 class PgvectorDriver implements VectorStoreContract
 {
@@ -29,7 +27,7 @@ class PgvectorDriver implements VectorStoreContract
     protected PgvectorFilterCompiler $compiler;
 
     /**
-     * @param  array{connection?: string, table?: string, dimensions?: int, metric?: string} $config
+     * @param  array{connection?: string, table?: string, dimensions?: int, metric?: string}  $config
      */
     public function __construct(array $config, PgvectorFilterCompiler $compiler)
     {
@@ -141,7 +139,7 @@ class PgvectorDriver implements VectorStoreContract
         Log::debug('VectorStore[pgvector]: listIndexes');
 
         $results = DB::connection($this->connection)->select(
-            "SELECT indexname FROM pg_indexes WHERE tablename = ?",
+            'SELECT indexname FROM pg_indexes WHERE tablename = ?',
             [$this->table]
         );
 
@@ -223,7 +221,7 @@ class PgvectorDriver implements VectorStoreContract
     /**
      * Get the database query builder for the vector records table.
      */
-    protected function db(): \Illuminate\Database\Query\Builder
+    protected function db(): Builder
     {
         return DB::connection($this->connection)->table($this->table);
     }
@@ -244,11 +242,11 @@ class PgvectorDriver implements VectorStoreContract
     /**
      * Convert a float array to a pgvector string representation.
      *
-     * @param  float[] $vector
+     * @param  float[]  $vector
      */
     protected function vectorToString(array $vector): string
     {
-        return '[' . implode(',', $vector) . ']';
+        return '['.implode(',', $vector).']';
     }
 
     /**

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 beforeEach(function () {
     $this->driver = new PineconeDriver(
         ['api_key' => 'test-key', 'host' => 'https://test-host.pinecone.io', 'namespace' => 'test-ns'],
-        new PineconeFilterCompiler()
+        new PineconeFilterCompiler
     );
 });
 
@@ -81,7 +81,7 @@ it('fetches a vector', function () {
 
     Http::assertSent(function ($request) {
         return str_starts_with($request->url(), 'https://test-host.pinecone.io/vectors/fetch') &&
-            str_contains($request->url(), 'ids' ) &&
+            str_contains($request->url(), 'ids') &&
             str_contains($request->url(), 'namespace=test-ns');
     });
 });

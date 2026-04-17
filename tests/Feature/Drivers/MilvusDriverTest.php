@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 beforeEach(function () {
     $this->driver = new MilvusDriver(
         ['host' => 'http://test-milvus:19530', 'token' => 'm-token', 'collection' => 'test_col'],
-        new MilvusFilterCompiler()
+        new MilvusFilterCompiler
     );
 });
 

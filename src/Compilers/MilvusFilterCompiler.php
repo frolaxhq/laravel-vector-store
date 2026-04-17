@@ -82,6 +82,6 @@ class MilvusFilterCompiler implements FilterCompilerContract
     {
         $quoted = array_map(fn ($v) => $this->quote($v), $values);
 
-        return '[' . implode(', ', $quoted) . ']';
+        return '['.implode(', ', $quoted).']';
     }
 }

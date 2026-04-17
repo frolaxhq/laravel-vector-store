@@ -2,9 +2,9 @@
 
 namespace Frolax\VectorStore\Tests;
 
+use Frolax\VectorStore\VectorStoreServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Frolax\VectorStore\VectorStoreServiceProvider;
 
 class TestCase extends Orchestra
 {

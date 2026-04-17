@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array listIndexes()
  * @method static VectorQueryBuilder query(array $vector)
  *
- * @see \Frolax\VectorStore\VectorStoreManager
+ * @see VectorStoreManager
  */
 class VectorStore extends Facade
 {

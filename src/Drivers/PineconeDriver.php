@@ -6,12 +6,11 @@ namespace Frolax\VectorStore\Drivers;
 
 use Frolax\VectorStore\Compilers\PineconeFilterCompiler;
 use Frolax\VectorStore\Contracts\VectorStoreContract;
-use Frolax\VectorStore\Exceptions\IndexNotFoundException;
-use Frolax\VectorStore\Exceptions\VectorStoreException;
 use Frolax\VectorStore\Query\VectorQueryBuilder;
 use Frolax\VectorStore\ValueObjects\VectorRecord;
 use Frolax\VectorStore\ValueObjects\VectorResult;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -27,7 +26,7 @@ class PineconeDriver implements VectorStoreContract
     protected PineconeFilterCompiler $compiler;
 
     /**
-     * @param  array{api_key: string, host: string, namespace?: string} $config
+     * @param  array{api_key: string, host: string, namespace?: string}  $config
      */
     public function __construct(array $config, PineconeFilterCompiler $compiler)
     {
@@ -243,7 +242,7 @@ class PineconeDriver implements VectorStoreContract
             ->acceptJson()
             ->asJson()
             ->retry(3, 100, function (\Exception $e, PendingRequest $request) {
-                return $e instanceof \Illuminate\Http\Client\RequestException
+                return $e instanceof RequestException
                     && in_array($e->response->status(), [429, 503]);
             }, false);
     }

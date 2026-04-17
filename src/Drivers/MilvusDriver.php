@@ -10,6 +10,7 @@ use Frolax\VectorStore\Query\VectorQueryBuilder;
 use Frolax\VectorStore\ValueObjects\VectorRecord;
 use Frolax\VectorStore\ValueObjects\VectorResult;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -25,7 +26,7 @@ class MilvusDriver implements VectorStoreContract
     protected MilvusFilterCompiler $compiler;
 
     /**
-     * @param  array{host?: string, token?: string, collection?: string} $config
+     * @param  array{host?: string, token?: string, collection?: string}  $config
      */
     public function __construct(array $config, MilvusFilterCompiler $compiler)
     {
@@ -80,7 +81,7 @@ class MilvusDriver implements VectorStoreContract
             "{$this->host}/v2/vectordb/entities/delete",
             [
                 'collectionName' => $this->collection,
-                'filter' => "id in ['" . implode("','", $ids) . "']",
+                'filter' => "id in ['".implode("','", $ids)."']",
             ]
         )->throw();
     }
@@ -240,7 +241,7 @@ class MilvusDriver implements VectorStoreContract
         }
 
         return $request->retry(3, 100, function (\Exception $e) {
-            return $e instanceof \Illuminate\Http\Client\RequestException
+            return $e instanceof RequestException
                 && in_array($e->response->status(), [429, 503]);
         }, false);
     }
