@@ -12,8 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Enable the pgvector extension
-        DB::statement('CREATE EXTENSION IF NOT EXISTS vector');
+        Schema::ensureVectorExtensionExists();
 
         $table = config('vector-store.stores.pgvector.table', 'vector_records');
         $dimensions = (int) config('vector-store.stores.pgvector.dimensions', 1536);
@@ -21,11 +20,9 @@ return new class extends Migration
         Schema::create($table, function (Blueprint $table) use ($dimensions) {
             $table->string('id')->primary();
             $table->jsonb('metadata')->default('{}');
+            $table->vector('vector', $dimensions);
             $table->timestamps();
         });
-
-        // Add the vector column using raw SQL (Laravel doesn't natively support pgvector types)
-        DB::statement("ALTER TABLE {$table} ADD COLUMN vector vector({$dimensions})");
     }
 
     /**
