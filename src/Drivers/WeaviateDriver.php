@@ -10,6 +10,7 @@ use Frolax\VectorStore\Query\VectorQueryBuilder;
 use Frolax\VectorStore\ValueObjects\VectorRecord;
 use Frolax\VectorStore\ValueObjects\VectorResult;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -25,7 +26,7 @@ class WeaviateDriver implements VectorStoreContract
     protected WeaviateFilterCompiler $compiler;
 
     /**
-     * @param  array{host?: string, api_key?: string, class?: string} $config
+     * @param  array{host?: string, api_key?: string, class?: string}  $config
      */
     public function __construct(array $config, WeaviateFilterCompiler $compiler)
     {
@@ -194,7 +195,7 @@ class WeaviateDriver implements VectorStoreContract
 
         if ($builder->hasConditions()) {
             $where = $this->compiler->compile($builder->getConditions());
-            $gqlParts[] = 'where: ' . $this->toGraphQLObject($where);
+            $gqlParts[] = 'where: '.$this->toGraphQLObject($where);
         }
 
         $additionalFields = ['id'];
@@ -240,7 +241,7 @@ class WeaviateDriver implements VectorStoreContract
             if (array_is_list($value)) {
                 $items = array_map(fn ($v) => $this->toGraphQLObject($v), $value);
 
-                return '[' . implode(', ', $items) . ']';
+                return '['.implode(', ', $items).']';
             }
 
             $parts = [];
@@ -248,11 +249,11 @@ class WeaviateDriver implements VectorStoreContract
                 $parts[] = "{$k}: {$this->toGraphQLObject($v)}";
             }
 
-            return '{ ' . implode(', ', $parts) . ' }';
+            return '{ '.implode(', ', $parts).' }';
         }
 
         if (is_string($value)) {
-            return '"' . addslashes($value) . '"';
+            return '"'.addslashes($value).'"';
         }
 
         if (is_bool($value)) {
@@ -277,7 +278,7 @@ class WeaviateDriver implements VectorStoreContract
         }
 
         return $request->retry(3, 100, function (\Exception $e) {
-            return $e instanceof \Illuminate\Http\Client\RequestException
+            return $e instanceof RequestException
                 && in_array($e->response->status(), [429, 503]);
         }, false);
     }

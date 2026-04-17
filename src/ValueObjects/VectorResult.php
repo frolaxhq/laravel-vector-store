@@ -9,10 +9,10 @@ use JsonSerializable;
 final readonly class VectorResult implements JsonSerializable
 {
     /**
-     * @param  string     $id       Unique identifier
-     * @param  float      $score    Similarity score
-     * @param  array      $metadata Key-value metadata pairs
-     * @param  float[]|null $vector The vector embedding (null unless explicitly requested)
+     * @param  string  $id  Unique identifier
+     * @param  float  $score  Similarity score
+     * @param  array  $metadata  Key-value metadata pairs
+     * @param  float[]|null  $vector  The vector embedding (null unless explicitly requested)
      */
     public function __construct(
         public string $id,
@@ -24,7 +24,7 @@ final readonly class VectorResult implements JsonSerializable
     /**
      * Create a VectorResult from an associative array.
      *
-     * @param  array{id: string, score: float, metadata?: array, vector?: float[]|null} $data
+     * @param  array{id: string, score: float, metadata?: array, vector?: float[]|null}  $data
      */
     public static function fromArray(array $data): self
     {

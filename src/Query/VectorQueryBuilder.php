@@ -42,8 +42,8 @@ class VectorQueryBuilder
     protected array $conditions = [];
 
     /**
-     * @param  float[]             $vector The query vector
-     * @param  VectorStoreContract $store  The driver that will execute this query
+     * @param  float[]  $vector  The query vector
+     * @param  VectorStoreContract  $store  The driver that will execute this query
      */
     public function __construct(array $vector, VectorStoreContract $store)
     {
@@ -108,9 +108,9 @@ class VectorQueryBuilder
      *   ->where('field', 'value')            — equality (op = '=')
      *   ->where('field', '>=', value)        — explicit operator
      *
-     * @param  string $field    The metadata field name
-     * @param  mixed  $operator The operator or value (if two-argument form)
-     * @param  mixed  $value    The value (only for three-argument form)
+     * @param  string  $field  The metadata field name
+     * @param  mixed  $operator  The operator or value (if two-argument form)
+     * @param  mixed  $value  The value (only for three-argument form)
      */
     public function where(string $field, mixed $operator, mixed $value = null): self
     {
@@ -134,7 +134,7 @@ class VectorQueryBuilder
      * Add a "where in" condition.
      *
      * @param  string  $field  The metadata field name
-     * @param  array   $values The list of acceptable values
+     * @param  array  $values  The list of acceptable values
      */
     public function whereIn(string $field, array $values): self
     {
@@ -151,7 +151,7 @@ class VectorQueryBuilder
      * Add a "where not in" condition.
      *
      * @param  string  $field  The metadata field name
-     * @param  array   $values The list of excluded values
+     * @param  array  $values  The list of excluded values
      */
     public function whereNotIn(string $field, array $values): self
     {
@@ -167,7 +167,7 @@ class VectorQueryBuilder
     /**
      * Add a "where between" condition.
      *
-     * @param  string $field  The metadata field name
+     * @param  string  $field  The metadata field name
      * @param  array  $range  A two-element array [min, max]
      */
     public function whereBetween(string $field, array $range): self
@@ -348,7 +348,7 @@ class VectorQueryBuilder
 
         if (! in_array($operator, $valid, true)) {
             throw new InvalidArgumentException(
-                "Invalid operator [{$operator}]. Supported operators: " . implode(', ', $valid)
+                "Invalid operator [{$operator}]. Supported operators: ".implode(', ', $valid)
             );
         }
     }

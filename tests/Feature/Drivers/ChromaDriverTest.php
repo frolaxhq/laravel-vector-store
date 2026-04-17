@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 beforeEach(function () {
     $this->driver = new ChromaDriver(
         ['host' => 'http://test-chroma:8000', 'collection' => 'test_col'],
-        new ChromaFilterCompiler()
+        new ChromaFilterCompiler
     );
 
     // Mock collection ID resolution

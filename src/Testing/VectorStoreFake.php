@@ -27,7 +27,6 @@ class VectorStoreFake implements VectorStoreContract
     /** @var string[] */
     protected array $deletedIds = [];
 
-    /** @var bool */
     protected bool $queried = false;
 
     /** @var array<string, array{dimensions: int, options: array}> */
@@ -36,7 +35,6 @@ class VectorStoreFake implements VectorStoreContract
     /** @var string[] */
     protected array $deletedIndexes = [];
 
-    /** @var bool */
     protected bool $flushed = false;
 
     // ---- VectorStoreContract implementation ----
@@ -187,6 +185,6 @@ class VectorStoreFake implements VectorStoreContract
 
     public function assertRecordCount(int $expected): void
     {
-        Assert::assertCount($expected, $this->records, "Expected {$expected} records but found " . count($this->records) . '.');
+        Assert::assertCount($expected, $this->records, "Expected {$expected} records but found ".count($this->records).'.');
     }
 }

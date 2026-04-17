@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 beforeEach(function () {
     $this->driver = new QdrantDriver(
         ['host' => 'http://test-qdrant:6333', 'api_key' => 'q-key', 'collection' => 'test_col'],
-        new QdrantFilterCompiler()
+        new QdrantFilterCompiler
     );
 });
 

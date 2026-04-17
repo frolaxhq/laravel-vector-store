@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Frolax\VectorStore\Contracts;
 
+use Frolax\VectorStore\Exceptions\FilterCompilationException;
+
 interface FilterCompilerContract
 {
     /**
@@ -14,10 +16,10 @@ interface FilterCompilerContract
      *
      * Supported operators: =, !=, >, >=, <, <=, in, not_in, between, null, not_null
      *
-     * @param  array<int, array{field: string, op: string, value?: mixed}> $conditions
+     * @param  array<int, array{field: string, op: string, value?: mixed}>  $conditions
      * @return mixed The compiled filter in driver-native format
      *
-     * @throws \Frolax\VectorStore\Exceptions\FilterCompilationException
+     * @throws FilterCompilationException
      */
     public function compile(array $conditions): mixed;
 }

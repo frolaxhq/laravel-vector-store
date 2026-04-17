@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 beforeEach(function () {
     $this->driver = new WeaviateDriver(
         ['host' => 'http://test-weaviate:8080', 'api_key' => 'w-key', 'class' => 'TestClass'],
-        new WeaviateFilterCompiler()
+        new WeaviateFilterCompiler
     );
 });
 
